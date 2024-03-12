@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
 import ArticleList from './ArticleList';
+import { useState ,useEffect } from 'react';
 
 const MyComponent = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [category, setCategory] = useState('sport');
   const [loading, setLoading] = useState(false);
+  const [theme, setTheme] = useState("light");
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -15,29 +16,30 @@ const MyComponent = () => {
     try {
       setLoading(true);
       setCategory(searchTerm);
-      setLoading(false);
     } catch (error) {
       console.error('Error searching:', error);
+    } finally {
       setLoading(false);
     }
   };
 
 
+  useEffect(()=>{
+    if (theme=="dark") {
+      document.documentElement.classList.add("dark")
+    }else{
+      document.documentElement.classList.remove("dark")
+    }
+  },[theme]);
+
+  const handlethemeswitch=()=>{
+    setTheme(theme==="dark" ? "light": "dark")
+  }
   
   return (
-    <div>
+    <div className='dark'>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <div className="flex items-center space-x-3 rtl:space-x-reverse">
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Flowbite
-            </span>
-          </div>
           <div className="flex items-center">
           <input
           type="text"
@@ -49,8 +51,6 @@ const MyComponent = () => {
         <button
           onClick={() => {
             handleSearch();
-            // Additionally, you can fetch articles based on the search term here
-            // Add your logic to fetch articles using the searchTerm
           }}
           className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
         >
@@ -80,6 +80,10 @@ const MyComponent = () => {
               />
             </svg>
           </button>
+          <button onClick={handlethemeswitch} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700">
+          dark
+          </button>
+
           <div
             className={`${
               isDropdownOpen ? 'block' : 'hidden'
@@ -191,7 +195,6 @@ const MyComponent = () => {
           </div>
         </div>
       </nav>
-
       <ArticleList category={category} loading={loading} />
     </div>
   );

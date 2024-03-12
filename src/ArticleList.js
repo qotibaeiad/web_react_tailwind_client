@@ -37,11 +37,9 @@ const ArticleList = ({ category }) => {
   };
 
   return (
-    <div className='dark:bg-gray-700'>
+    <div className={`dark:bg-gray-700 ${loading ? 'dark:text-white' : 'dark:text-black'}`}>
       {loading && <p>Loading...</p>}
-
       {!loading && articles.length === 0 && <p>No articles available</p>}
-
       {!loading &&
         articles.length > 0 &&
         articles.map((article, index) => (

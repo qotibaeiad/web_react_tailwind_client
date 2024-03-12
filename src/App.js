@@ -6,7 +6,7 @@ import ArticleList from './ArticleList'; // Import the new ArticleList component
 
 const App = () => {
   return (
-    <div className='dark:bg-gray-700'>
+    <div>
       <MyComponent />
     </div>
   );
