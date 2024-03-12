@@ -51,6 +51,7 @@ const MyComponent = () => {
         <button
           onClick={() => {
             handleSearch();
+
           }}
           className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
         >
