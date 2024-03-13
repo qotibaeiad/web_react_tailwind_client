@@ -52,7 +52,7 @@ const MyComponent = () => {
   };
   return (
     <div>
-      <nav className=" bg-gray-900">
+      <nav className="fixed top-0 w-full bg-gray-900 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-gray-900">
           <div className="flex items-center">
             <input
@@ -206,7 +206,9 @@ const MyComponent = () => {
           </div>
         </div>
       </nav>
+      <div className='pt-16'>
       <ArticleList category={category} loading={loading} />
+      </div>
     </div>
   );  
 };
