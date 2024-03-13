@@ -1,15 +1,37 @@
 import ArticleList from './ArticleList';
 import { useState ,useEffect } from 'react';
+import "./App.css"
+import useDarkSide from './useDarkSide';
+import { DarkModeSwitch } from 'react-toggle-dark-mode';
 
 const MyComponent = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isOpen, setOpen] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [category, setCategory] = useState('sport');
   const [loading, setLoading] = useState(false);
-  const [theme, setTheme] = useState("light");
+  const [colorTheme, setTheme] = useDarkSide();
+  const [darkSide, setDarkSide] = useState(colorTheme === 'light' ? "dark" : "light");
+  const [selectedDropdownItem, setSelectedDropdownItem] = useState('Dashboard');
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!isDropdownOpen);
+
+
+
+
+  const toggleMenu = () => {
+    setOpen(!isOpen);
+    setCategoryDropdownOpen(false);
+  };
+
+  
+  const toggleCategoryDropdown = () => {
+    setCategoryDropdownOpen(!categoryDropdownOpen);
+  };
+
+  const handleCategorySelect = (selectedCategory) => {
+    setCategory(selectedCategory);
+    setSelectedDropdownItem(selectedCategory);
+    setCategoryDropdownOpen(false);
   };
 
   const handleSearch = async () => {
@@ -23,46 +45,42 @@ const MyComponent = () => {
     }
   };
 
+  const toggleDarkMode = checked => {
+    setTheme(colorTheme);
+    setDarkSide(checked);
+  };
 
-  useEffect(()=>{
-    if (theme=="dark") {
-      document.documentElement.classList.add("dark")
-    }else{
-      document.documentElement.classList.remove("dark")
-    }
-  },[theme]);
 
-  const handlethemeswitch=()=>{
-    setTheme(theme==="dark" ? "light": "dark")
-  }
+  
+
+  
   
   return (
     <div className='dark'>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <div className="flex items-center">
-          <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-        />
-        <button
-          onClick={() => {
-            handleSearch();
-
-          }}
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
-        >
-          Search
-        </button>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+            />
+            <button
+              onClick={() => {
+                handleSearch();
+              }}
+              className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+            >
+              Search
+            </button>
           </div>
           <button
-            onClick={toggleDropdown}
+            onClick={toggleMenu}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-dropdown"
-            aria-expanded={isDropdownOpen}
+            aria-expanded={isOpen}
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -74,20 +92,16 @@ const MyComponent = () => {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M1 1h15M1 7h15M1 13h15"
               />
             </svg>
           </button>
-          <button onClick={handlethemeswitch} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700">
-          dark
-          </button>
-
           <div
             className={`${
-              isDropdownOpen ? 'block' : 'hidden'
+              isOpen ? 'block' : 'hidden'
             } w-full md:block md:w-auto`}
             id="navbar-dropdown"
           >
@@ -101,12 +115,29 @@ const MyComponent = () => {
                 </a>
               </li>
               <li>
-                <button
+                <a
+                  href="#"
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  porfile
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                >
+                  Logout
+                </a>
+              </li>
+              <li>
+              <button
                   id="dropdownNavbarLink"
                   data-dropdown-toggle="dropdownNavbar"
                   className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                  onClick={() => toggleCategoryDropdown()}
                 >
-                  Dropdown
+                  {selectedDropdownItem}
                   <svg
                     className="w-2.5 h-2.5 ms-2.5"
                     aria-hidden="true"
@@ -116,9 +147,9 @@ const MyComponent = () => {
                   >
                     <path
                       stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="m1 1 4 4 4-4"
                     />
                   </svg>
@@ -126,8 +157,8 @@ const MyComponent = () => {
                 <div
                   id="dropdownNavbar"
                   className={`${
-                    isDropdownOpen ? 'block' : 'hidden'
-                  } z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+                    categoryDropdownOpen ? 'block' : 'hidden'
+                  } z-10 absolute font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
                 >
                   <ul
                     className="py-2 text-sm text-gray-700 dark:text-gray-400"
@@ -137,24 +168,27 @@ const MyComponent = () => {
                       <a
                         href="#"
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        onClick={() => handleCategorySelect('business')}
                       >
-                        Dashboard
+                        business
                       </a>
                     </li>
                     <li>
                       <a
                         href="#"
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        onClick={() => handleCategorySelect('cars')}
                       >
-                        Settings
+                        cars
                       </a>
                     </li>
                     <li>
                       <a
                         href="#"
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        onClick={() => handleCategorySelect('sport')}
                       >
-                        Earnings
+                        sport
                       </a>
                     </li>
                   </ul>
@@ -165,32 +199,13 @@ const MyComponent = () => {
                     >
                       Sign out
                     </a>
+                    <li>
+                  <div>
+                    <DarkModeSwitch checked={darkSide} onChange={toggleDarkMode} className='w-10' />
+                  </div>
+                </li>
                   </div>
                 </div>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Services
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Pricing
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Contact
-                </a>
               </li>
             </ul>
           </div>
@@ -198,7 +213,7 @@ const MyComponent = () => {
       </nav>
       <ArticleList category={category} loading={loading} />
     </div>
-  );
+  );  
 };
 
 export default MyComponent;
