@@ -43,7 +43,7 @@ const ArticleList = ({ category }) => {
       {!loading &&
         articles.length > 0 &&
         articles.map((article, index) => (
-          <div key={index} className="hover:scale-90  dark:bg-gray-700 flex flex-wrap transform shadow-lg transition-transform duration-300 ease-in-out text-black dark:text-white mt-16 mb-16 p-6">
+          <div key={index} className="hover:scale-90  dark:bg-gray-700 flex flex-wrap transform shadow-lg transition-transform duration-300 ease-in-out text-black dark:text-white  mb-16 p-6">
             <div className="mb-6 ml-auto w-full shrink-0 grow-0 basis-auto px-3 md:mb-0 md:w-3/12">
               <div className="relative mb-6 overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-lg dark:shadow-black/20" data-te-ripple-init data-te-ripple-color="light">
                 <img src={article.urlToImage} onClick={() => openArticle(index)} className="lg:w-full" alt="Article" />
