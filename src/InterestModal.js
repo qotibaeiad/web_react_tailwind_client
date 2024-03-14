@@ -26,8 +26,7 @@ function InterestModal({ onClose, onSave, userData }) {
       const data = await response.json();
 
       if (data.success) {
-        alert('User registered successfully');
-        onClose(); // Close the modal after successful registration
+        window.location.href = '/';
       } else {
         alert('User registration failed');
       }
