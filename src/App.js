@@ -2,12 +2,20 @@
 
 import React from 'react';
 import MyComponent from './navbar';
+import Login from './Login'; 
+import Register from './Register';
 import './index.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 const App = () => {
   return (
-    <div className='dark:bg-gray-900'>
-      <MyComponent />
-    </div>
+    <Router>
+      <Routes>
+      <Route exact path="/" element={<MyComponent />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
   );
 };
 

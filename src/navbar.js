@@ -4,6 +4,8 @@ import "./App.css"
 import useDarkSide from './useDarkSide';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import './index.css';
+import { Link } from 'react-router-dom'; 
+
 
 const MyComponent = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,9 +16,27 @@ const MyComponent = () => {
   const [colorTheme, setTheme] = useDarkSide();
   const [darkSide, setDarkSide] = useState(colorTheme === 'light' ? true : false);
   const [selectedDropdownItem, setSelectedDropdownItem] = useState('sport');
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState([]);
 
 
 
+  const autocomplete = async () => {
+    try {
+      if (searchTerm.trim() !== '') {
+        const response = await fetch(`https://api.datamuse.com/sug?s=${searchTerm}`);
+        const data = await response.json();
+        setAutocompleteSuggestions(data.map(item => item.word));
+      } else {
+        setAutocompleteSuggestions([]);
+      }
+    } catch (error) {
+      console.error('Error fetching autocomplete suggestions:', error);
+    }
+  };
+
+  useEffect(() => {
+    autocomplete();
+  }, [searchTerm]);
 
 
   const toggleMenu = () => {
@@ -55,17 +75,16 @@ const MyComponent = () => {
       <nav className="fixed top-0 w-full bg-gray-900 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-gray-900">
           <div className="flex items-center">
-            <input
+          <input
               type="text"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             />
+         
             <button
-              onClick={() => {
-                handleSearch();
-              }}
+              onClick={handleSearch}
               className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
             >
               Search
@@ -118,13 +137,8 @@ const MyComponent = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                >
-                  Logout
-                </a>
-              </li>
+              <Link to="/login" className="text-white ">Logout</Link>
+                  </li>
               <li>
               <button
                   id="dropdownNavbarLink"
