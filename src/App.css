@@ -37,3 +37,16 @@
   }
 }
 
+.edit-button {
+  display: inline-block; /* Initially show the edit button */
+  float: right;
+  margin-left: 100px; /* Add left margin to the edit button */
+}
+
+.save-button {
+  //display: none; /* Initially hide the save button */
+  float: right;
+  margin-left: 100px; /* Add left margin to the save button */
+}
+
+
