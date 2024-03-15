@@ -13,27 +13,54 @@ const MyComponent = () => {
   const [colorTheme, setTheme] = useDarkSide();
   const [darkSide, setDarkSide] = useState(colorTheme === 'light' ? true : false);
   const [selectedDropdownItem, setSelectedDropdownItem] = useState('sport');
-  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [username, setUsername] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    if (searchTerm.trim() !== '') {
+      fetch(`https://api.datamuse.com/sug?s=${searchTerm}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setSuggestions(data);
+          setShowSuggestions(data.length > 0);
+        })
+        .catch(error => console.error('Error fetching suggestions:', error));
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  }, [searchTerm]);
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
 
-  const autocomplete = async () => {
-    try {
-      if (searchTerm.trim() !== '') {
-        const response = await fetch(`https://api.datamuse.com/sug?s=${searchTerm}`);
-        const data = await response.json();
-        setAutocompleteSuggestions(data.map(item => item.word));
-      } else {
-        setAutocompleteSuggestions([]);
-      }
-    } catch (error) {
-      console.error('Error fetching autocomplete suggestions:', error);
+  const handleSuggestionClick = (word) => {
+    setSearchTerm(word);
+    setShowSuggestions(false);
+  };
+
+  const handleClickOutside = (event) => {
+    const searchInput = document.getElementById('default-search');
+    const resultsContainer = document.getElementById('search-results');
+    if (searchInput && resultsContainer && !searchInput.contains(event.target) && !resultsContainer.contains(event.target)) {
+      setShowSuggestions(false);
     }
   };
 
   useEffect(() => {
-    autocomplete();
-  }, [searchTerm]);
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
     const usernameFromLocalStorage = localStorage.getItem('name');
@@ -99,11 +126,21 @@ const MyComponent = () => {
           <div className="flex items-center relative">
             <input
               type="text"
+              id="default-search"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+              className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white "
             />
+            {showSuggestions && (
+            <ul id='search-results' className="list-none p-0 m-0 absolute top-full left-0 w-full bg-white border border-gray-300 border-t-0 text-black dark:text-white dark:bg-gray-700 rounded-lg">
+               {suggestions.map((item, index) => (
+               <li key={index} onClick={() => handleSuggestionClick(item.word)}>
+                  {item.word}
+              </li>
+                ))}
+             </ul>
+              )}
             
             <button
               onClick={handleSearch}

@@ -49,4 +49,13 @@
   margin-left: 100px; /* Add left margin to the save button */
 }
 
+#search-results li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#search-results li:hover {
+  background-color: #948f8f;
+}
+
 
