@@ -45,7 +45,7 @@ const MyComponent = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`http://10.0.0.12:3000/api/categories?username=${username}`);
+        const response = await fetch(`http://172.20.10.2:3000/api/categories?username=${username}`);
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
@@ -96,7 +96,7 @@ const MyComponent = () => {
     <div>
       <nav className="fixed top-0 w-full bg-gray-900 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-gray-900">
-          <div className="flex items-center">
+          <div className="flex items-center relative">
             <input
               type="text"
               placeholder="Search..."
@@ -104,12 +104,14 @@ const MyComponent = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
             />
+            
             <button
               onClick={handleSearch}
               className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
             >
               Search
             </button>
+           
           </div>
           <button
             onClick={toggleMenu}
@@ -148,7 +150,7 @@ const MyComponent = () => {
                 </a>
               </li>
               <li>
-              <Link to="/ProfileCard" className="text-white">Profile</Link>
+              <Link to="/Profile" className="text-white">Profile</Link>
                
               </li>
               <li>

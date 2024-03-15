@@ -7,6 +7,7 @@ import Register from './Register';
 import './index.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
+import Profile from './Profile';
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
       <Route exact path="/" element={<MyComponent />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/ProfileCard" element={<ProfileCard />} />
+      <Route path="/Profile" element={<Profile />} />
 
       </Routes>
     </Router>
