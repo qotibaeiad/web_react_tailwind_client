@@ -52,10 +52,18 @@
 #search-results li {
   padding: 8px;
   cursor: pointer;
+ 
+
 }
 
 #search-results li:hover {
   background-color: #948f8f;
 }
+
+.dark-mode-icon {
+  fill: white; /* or any other color for dark mode */
+}
+
+
 
 

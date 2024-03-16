@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ArticleList from './ArticleList';
 import useDarkSide from './useDarkSide';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
@@ -17,8 +17,21 @@ const MyComponent = () => {
   const [username, setUsername] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [searchInputWidth, setSearchInputWidth] = useState(0); // State to store input width
+
+
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  const defaultSearchRef = useRef(null);
+
   useEffect(() => {
+    // Calculate and set the width of the default search input
+    if (defaultSearchRef.current) {
+      setSearchInputWidth(defaultSearchRef.current.offsetWidth);
+    }
+  }, [defaultSearchRef]);
+
+  useEffect(() => {
+    
     if (searchTerm.trim() !== '') {
       fetch(`https://api.datamuse.com/sug?s=${searchTerm}`)
         .then(response => {
@@ -37,19 +50,24 @@ const MyComponent = () => {
       setShowSuggestions(false);
     }
   }, [searchTerm]);
+
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
+    setShowSuggestions(false);
+
   };
+ 
 
   const handleSuggestionClick = (word) => {
     setSearchTerm(word);
-    setShowSuggestions(false);
+    setLoading(false);
+    handleSearch();
   };
 
-  const handleClickOutside = (event) => {
-    const searchInput = document.getElementById('default-search');
+  const handleClickOutside = event => {
+    const searchInput = defaultSearchRef.current;
     const resultsContainer = document.getElementById('search-results');
-    if (searchInput && resultsContainer && !searchInput.contains(event.target) && !resultsContainer.contains(event.target)) {
+    if (searchInput && resultsContainer && event.target !== searchInput && !searchInput.contains(event.target) && !resultsContainer.contains(event.target)) {
       setShowSuggestions(false);
     }
   };
@@ -111,6 +129,7 @@ const MyComponent = () => {
       console.error('Error searching:', error);
     } finally {
       setLoading(false);
+      setShowSuggestions(false);
     }
   };
 
@@ -124,16 +143,18 @@ const MyComponent = () => {
       <nav className="fixed top-0 w-full bg-gray-900 z-50">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-gray-900">
           <div className="flex items-center relative">
+            
             <input
+              ref={defaultSearchRef} 
               type="text"
               id="default-search"
               placeholder="Search..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleInputChange}
               className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white "
             />
             {showSuggestions && (
-            <ul id='search-results' className="list-none p-0 m-0 absolute top-full left-0 w-full bg-white border border-gray-300 border-t-0 text-black dark:text-white dark:bg-gray-700 rounded-lg">
+            <ul id='search-results' className="list-none p-0 m-0 absolute top-full left-0  bg-white border border-gray-300 border-t-0 text-black dark:text-white dark:bg-gray-700 rounded-lg" style={{ width: searchInputWidth }}>
                {suggestions.map((item, index) => (
                <li key={index} onClick={() => handleSuggestionClick(item.word)}>
                   {item.word}
@@ -150,6 +171,7 @@ const MyComponent = () => {
             </button>
            
           </div>
+          
           <button
             onClick={toggleMenu}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
