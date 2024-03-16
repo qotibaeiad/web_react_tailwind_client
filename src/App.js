@@ -8,6 +8,7 @@ import './index.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
 import Profile from './Profile';
+import ForgotPassword from './ForgotPassword';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/Profile" element={<Profile />} />
+      <Route path="/ForgotPassword" element={<ForgotPassword />} />
 
       </Routes>
     </Router>
