@@ -11,7 +11,8 @@ const ArticleList = ({ category }) => {
         setLoading(true);
         setArticles([]); 
         const defaultCategory = category || 'sport';
-        const response = await axios.get(`http://192.168.14.7:3000/api/search?query=${defaultCategory}`);
+        const response = await axios.get(`http://172.20.10.13:3000/api/search?query=${defaultCategory}`);
+
         setArticles(response.data.articles);
         setLoading(false);
       } catch (error) {

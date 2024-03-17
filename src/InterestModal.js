@@ -12,7 +12,7 @@ function InterestModal({ onClose, onSave, userData }) {
   };
   const handleSave = async () => {
     try {
-      const response = await fetch('http://172.20.10.2:3000/api/register', {
+      const response = await fetch('http://10.0.0.12:3000/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -3,6 +3,9 @@ import ArticleList from './ArticleList';
 import useDarkSide from './useDarkSide';
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
 import { Link } from 'react-router-dom'; 
+import { ipAddress } from './App';
+
+
 
 const MyComponent = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,7 +20,8 @@ const MyComponent = () => {
   const [username, setUsername] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [searchInputWidth, setSearchInputWidth] = useState(0); // State to store input width
+  const [searchInputWidth, setSearchInputWidth] = useState(0); 
+  const [inputClicked, setInputClicked] = useState(false);
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +36,7 @@ const MyComponent = () => {
 
   useEffect(() => {
     
-    if (searchTerm.trim() !== '') {
+    if (searchTerm.trim() !== '' && inputClicked) {
       fetch(`https://api.datamuse.com/sug?s=${searchTerm}`)
         .then(response => {
           if (!response.ok) {
@@ -48,6 +52,7 @@ const MyComponent = () => {
     } else {
       setSuggestions([]);
       setShowSuggestions(false);
+     
     }
   }, [searchTerm]);
 
@@ -60,8 +65,9 @@ const MyComponent = () => {
 
   const handleSuggestionClick = (word) => {
     setSearchTerm(word);
-    setLoading(false);
+    setShowSuggestions(false);
     handleSearch();
+    setInputClicked(false);
   };
 
   const handleClickOutside = event => {
@@ -78,6 +84,10 @@ const MyComponent = () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  const handleInputClick = () => {
+    setInputClicked(true);
+  };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
@@ -90,7 +100,7 @@ const MyComponent = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`http://172.20.10.2:3000/api/categories?username=${username}`);
+        const response = await fetch(`http://${ipAddress}:3000/api/categories?username=${username}`);
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
@@ -150,7 +160,8 @@ const MyComponent = () => {
               id="default-search"
               placeholder="Search..."
               value={searchTerm}
-              onChange={handleInputChange}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onClick={handleInputClick} 
               className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white "
             />
             {showSuggestions && (
