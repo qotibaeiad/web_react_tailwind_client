@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
 
+
+
 const Login = () => {
+    
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -23,7 +26,7 @@ const Login = () => {
             const isAuthenticated = await checkUser(username, password);
             if (isAuthenticated) {
                 localStorage.setItem('name', username);
-                // Redirect or perform other actions upon successful login
+                window.location.href = '/';
             } else {
                 alert('Incorrect username or password');
             }
@@ -34,7 +37,7 @@ const Login = () => {
     };
 
     const checkUser = async (username, password) => {
-        const apiUrl = `10.0.0.12/api/login?username=${username}&password=${password}`;
+        const apiUrl = `http://172.20.10.2:3000/api/login?username=${username}&password=${password}`;
 
         try {
             const response = await fetch(apiUrl);

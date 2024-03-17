@@ -13,7 +13,8 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [country, setCountry] = useState('');
     const [showInterestModal, setShowInterestModal] = useState(false); 
-
+    const jobTitle='empthy';
+    const bio='empthy';
     const onSave = (userData) => {
         console.log('User data:', userData);
       };
@@ -81,7 +82,7 @@ function Register() {
                     </div>
                 </form>
             </div>
-            {showInterestModal && <InterestModal onSave={onSave} userData={{ username, email, phone, country }} />}
+            {showInterestModal && <InterestModal onSave={onSave} userData={{ username,password, email, phone, country,jobTitle ,bio}} />}
         </div>
     );
 }
