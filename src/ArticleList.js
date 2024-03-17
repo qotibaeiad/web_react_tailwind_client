@@ -26,7 +26,7 @@ const ArticleList = ({ category }) => {
   }, [category]);
 
   const [favorites, setFavorites] = useState({});
-
+  const name=localStorage.getItem('name')
   const toggleFavorite = async (articleIndex) => {
     const article = articles[articleIndex];
     const isCurrentlyFavorite = favorites[articleIndex];
@@ -35,7 +35,7 @@ const ArticleList = ({ category }) => {
     if (isCurrentlyFavorite) {
       try {
         const response = await axios.post(`http://${ipAddress}:3000/api/remove-article`, {
-          username: "username", // Provide the username if required by the server
+          username: name, // Provide the username if required by the server
           title: article.title,
         });
   
@@ -54,7 +54,7 @@ const ArticleList = ({ category }) => {
     } else {
       try {
         const response = await axios.post(`http://${ipAddress}:3000/api/add-article`, {
-          username: "username", // Provide the username if required by the server
+          username: name, // Provide the username if required by the server
           author: article.author,
           title: article.title,
           description: article.description,
