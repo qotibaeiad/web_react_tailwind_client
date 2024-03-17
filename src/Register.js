@@ -19,7 +19,7 @@ function Register() {
     const onSave = (userData) => {
         console.log('User data:', userData);
       };
-
+      
     // Function to handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
