@@ -4,6 +4,7 @@ import InterestModal from './InterestModal';
 
 
 
+
 function Register() {
     // State variables to manage form inputs and selected categories
     const [username, setUsername] = useState('');

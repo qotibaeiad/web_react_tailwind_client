@@ -18,15 +18,10 @@ function Profile() {
         <div style={{ backgroundColor: darkSide ? '#1F2937' : '#F3F4F6', minHeight: '100vh' }}>
             {/* Profile Navbar */}
             <ProfileNavbar darkSide={darkSide} toggleDarkMode={toggleDarkMode} />
-
             <div style={{ backgroundColor: darkSide ? '#374151' : '#E5E7EB', height: '1px' }}></div>
-
-            
             <div className="px-4"> 
                 <ProfileCard darkSide={darkSide} />
             </div>
-           
-           
         </div>
     );
 }

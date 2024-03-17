@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
+import { ipAddress } from './App';
+
 
 
 
@@ -37,7 +39,7 @@ const Login = () => {
     };
 
     const checkUser = async (username, password) => {
-        const apiUrl = `http://10.0.0.12:3000/api/login?username=${username}&password=${password}`;
+        const apiUrl = `http://${ipAddress}:3000/api/login?username=${username}&password=${password}`;
 
         try {
             const response = await fetch(apiUrl);

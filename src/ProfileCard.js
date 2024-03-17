@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { ipAddress } from './App';
+
+
 function EditableField({ fieldName, value, editing, onChange, onSave }) {
     const [fieldValue, setFieldValue] = useState(value); // Add state to manage input field value
 
@@ -51,7 +54,7 @@ function ProfileCard() {
      
     async function fetchUserData(username) {
         try {
-            const response = await fetch(`http://10.0.0.12:3000/api/userdata?username=${username}`);
+            const response = await fetch(`http://${ipAddress}:3000/api/userdata?username=${username}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch user data');
             }
@@ -68,7 +71,7 @@ function ProfileCard() {
 
     async function saveField(fieldName, value) {
         try {
-            const response = await fetch(`http://10.0.0.12:3000/api/updateUserData`, {
+            const response = await fetch(`http://${ipAddress}:3000/api/updateUserData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

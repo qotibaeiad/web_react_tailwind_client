@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ipAddress } from './App';
+
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -13,7 +15,7 @@ function ForgotPassword() {
     
         // Send a request to your backend API to check if the email exists
         try {
-            const response = await fetch('http://172.20.10.13:3000/api/check-email', {
+            const response = await fetch(`http://${ipAddress}:3000/api/check-email`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -58,7 +60,7 @@ function ForgotPassword() {
         }
     
         try {
-            const response = await fetch('http://172.20.10.13:3000/api/updateUserData', {
+            const response = await fetch(`http://${ipAddress}:3000/api/updateUserData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
