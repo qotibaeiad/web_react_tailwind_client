@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ipAddress } from './App';
 
 function InterestModal({ onClose, onSave, userData }) {
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -12,7 +13,7 @@ function InterestModal({ onClose, onSave, userData }) {
   };
   const handleSave = async () => {
     try {
-      const response = await fetch('http://10.0.0.12:3000/api/register', {
+      const response = await fetch(`http://${ipAddress}:3000/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
