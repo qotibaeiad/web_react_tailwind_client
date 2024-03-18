@@ -5,6 +5,7 @@ import MyComponent from './navbar';
 import Login from './Login'; 
 import Register from './Register';
 import './index.css';
+import Article from './ShowArticle';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
 import Profile from './Profile';
@@ -21,6 +22,7 @@ const App = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/Profile" element={<Profile />} />
       <Route path="/ForgotPassword" element={<ForgotPassword />} />
+      <Route path='/Article' element={<Article/>}/>
       </Routes>
     </Router>
   );

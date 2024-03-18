@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ipAddress } from './App';
+import { Link } from 'react-router-dom';
+
+
+const loggedInUser = localStorage.getItem('name');
+export let Gimage = null;
+export let Gtitle = null;
+export let Gauthor = null;
+export let Gcontent = null;
+export let Gpublishtime = null;
+
 
 const ArticleList = ({ category }) => {
   const [loading, setLoading] = useState(true);
@@ -34,7 +44,6 @@ const ArticleList = ({ category }) => {
     // Conditionally send request based on the favorite status
     if (isCurrentlyFavorite) {
       try {
-        const loggedInUser = localStorage.getItem('loggedInUser');
         const response = await axios.post(`http://${ipAddress}:3000/api/remove-article`, {
           username: loggedInUser, // Provide the username if required by the server
           title: article.title,
@@ -55,7 +64,7 @@ const ArticleList = ({ category }) => {
     } else {
       try {
         const response = await axios.post(`http://${ipAddress}:3000/api/add-article`, {
-          username: "username", // Provide the username if required by the server
+          username: loggedInUser, // Provide the username if required by the server
           author: article.author,
           title: article.title,
           description: article.description,
@@ -88,10 +97,14 @@ const ArticleList = ({ category }) => {
       }
     }
   };
-  
-  
-  
-  
+
+  const handleClickarticle = (image, title, author, content, publishtime) => {
+    Gimage=image;
+    Gtitle=title;
+    Gauthor=author;
+    Gcontent=content;
+    Gpublishtime=publishtime
+  };
 
   return (
     <div className={`dark:bg-gray-700 ${loading ? 'dark:text-white' : 'dark:text-black'}`}>
@@ -103,7 +116,14 @@ const ArticleList = ({ category }) => {
           <div key={index} className="hover:scale-90  dark:bg-gray-700 flex flex-wrap transform shadow-lg transition-transform duration-300 ease-in-out text-black dark:text-white  mb-16 p-6">
             <div className="mb-6 ml-auto w-full shrink-0 grow-0 basis-auto px-3 md:mb-0 md:w-3/12">
               <div className="relative mb-6 overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-lg dark:shadow-black/20" data-te-ripple-init data-te-ripple-color="light">
-                <img src={article.urlToImage} className="lg:w-full" alt="Article" />
+              <Link to={`/Article`}>
+                <img
+                  src={article.urlToImage}
+                  onClick={() => handleClickarticle(article.urlToImage, article.title, article.author, article.content, article.publishedAt)}
+                  className="lg:w-full"
+                  alt="Article"
+                />
+              </Link>
               </div>
             </div>
 
