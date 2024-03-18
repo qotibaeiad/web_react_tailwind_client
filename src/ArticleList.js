@@ -36,7 +36,7 @@ const ArticleList = ({ category }) => {
       try {
         const loggedInUser = localStorage.getItem('loggedInUser');
         const response = await axios.post(`http://${ipAddress}:3000/api/remove-article`, {
-          username: "loggedInUser", // Provide the username if required by the server
+          username: loggedInUser, // Provide the username if required by the server
           title: article.title,
         });
   
