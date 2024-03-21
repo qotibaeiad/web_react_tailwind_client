@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
 import Profile from './Profile';
 import ForgotPassword from './ForgotPassword';
-export const ipAddress = '172.20.10.13'; // Exporting ipAddress
+export const ipAddress = '192.168.14.9'; // Exporting ipAddress
 
 
 const App = () => {
