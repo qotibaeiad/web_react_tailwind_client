@@ -39,7 +39,7 @@ const Login = () => {
     };
 
     const checkUser = async (username, password) => {
-        const apiUrl = `http://${ipAddress}:3000/api/login?username=${username}&password=${password}`;
+        const apiUrl = `${ipAddress}/api/login?username=${username}&password=${password}`;
 
         try {
             const response = await fetch(apiUrl);

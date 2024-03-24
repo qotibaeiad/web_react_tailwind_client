@@ -10,6 +10,7 @@ export let Gtitle = null;
 export let Gauthor = null;
 export let Gcontent = null;
 export let Gpublishtime = null;
+export let Gdescription = null;
 
 
 const ArticleList = ({ category }) => {
@@ -22,8 +23,7 @@ const ArticleList = ({ category }) => {
         setLoading(true);
         setArticles([]);
         const defaultCategory = category || 'sport';
-        const response = await axios.get(`http://${ipAddress}:3000/api/search?query=${defaultCategory}`);
-
+        const response = await axios.get(`${ipAddress}/api/search?query=${defaultCategory}`);
         setArticles(response.data.articles);
         setLoading(false);
       } catch (error) {
@@ -44,7 +44,7 @@ const ArticleList = ({ category }) => {
     // Conditionally send request based on the favorite status
     if (isCurrentlyFavorite) {
       try {
-        const response = await axios.post(`http://${ipAddress}:3000/api/remove-article`, {
+        const response = await axios.post(`${ipAddress}/api/remove-article`, {
           username: loggedInUser, // Provide the username if required by the server
           title: article.title,
         });
@@ -63,7 +63,7 @@ const ArticleList = ({ category }) => {
       }
     } else {
       try {
-        const response = await axios.post(`http://${ipAddress}:3000/api/add-article`, {
+        const response = await axios.post(`${ipAddress}/api/add-article`, {
           username: loggedInUser, // Provide the username if required by the server
           author: article.author,
           title: article.title,
@@ -98,12 +98,13 @@ const ArticleList = ({ category }) => {
     }
   };
 
-  const handleClickarticle = (image, title, author, content, publishtime) => {
+  const handleClickarticle = (image, title, author, content, publishtime,description) => {
     Gimage=image;
     Gtitle=title;
     Gauthor=author;
     Gcontent=content;
-    Gpublishtime=publishtime
+    Gpublishtime=publishtime;
+    Gdescription = description;
   };
 
   return (
@@ -119,7 +120,7 @@ const ArticleList = ({ category }) => {
               <Link to={`/Article`}>
                 <img
                   src={article.urlToImage}
-                  onClick={() => handleClickarticle(article.urlToImage, article.title, article.author, article.content, article.publishedAt)}
+                  onClick={() => handleClickarticle(article.urlToImage, article.title, article.author, article.content, article.publishedAt,article.description)}
                   className="lg:w-full"
                   alt="Article"
                 />

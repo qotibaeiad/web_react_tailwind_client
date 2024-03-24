@@ -54,7 +54,7 @@ function ProfileCard() {
      
     async function fetchUserData(username) {
         try {
-            const response = await fetch(`http://${ipAddress}:3000/api/userdata?username=${username}`);
+            const response = await fetch(`${ipAddress}/api/userdata?username=${username}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch user data');
             }
@@ -71,7 +71,7 @@ function ProfileCard() {
 
     async function saveField(fieldName, value) {
         try {
-            const response = await fetch(`http://${ipAddress}:3000/api/updateUserData`, {
+            const response = await fetch(`${ipAddress}/api/updateUserData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

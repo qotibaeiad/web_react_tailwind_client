@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {Gimage} from './ArticleList';
-import {Gtitle} from './ArticleList';
-import {Gauthor} from './ArticleList';
-import {Gcontent} from './ArticleList';
-import {Gpublishtime} from './ArticleList';
+import React, { useState } from 'react';
+import {Gimage,Gpublishtime,Gcontent,Gauthor,Gtitle,Gdescription} from './ArticleList';
 import ProfileNavbar from './profileNavbar';
 import useDarkSide from './useDarkSide';
 

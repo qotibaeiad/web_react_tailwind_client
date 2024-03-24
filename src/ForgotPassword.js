@@ -15,7 +15,7 @@ function ForgotPassword() {
     
         // Send a request to your backend API to check if the email exists
         try {
-            const response = await fetch(`http://${ipAddress}:3000/api/check-email`, {
+            const response = await fetch(`${ipAddress}/api/check-email`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ function ForgotPassword() {
         }
     
         try {
-            const response = await fetch(`http://${ipAddress}:3000/api/updateUserData`, {
+            const response = await fetch(`${ipAddress}/api/updateUserData`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

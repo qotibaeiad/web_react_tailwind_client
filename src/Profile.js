@@ -5,6 +5,8 @@ import ProfileNavbar from './profileNavbar';
 import ProfileCard from './ProfileCard';
 import useDarkSide from './useDarkSide';
 import { ipAddress } from './App';
+import { Gauthor,Gcontent,Gimage,Gpublishtime,Gtitle,Gdescription } from './ArticleList';
+
 
 function Profile() {
     const [colorTheme, setTheme] = useDarkSide();
@@ -19,7 +21,7 @@ function Profile() {
 
     const fetchArticles = async (username) => {
         try {
-            const response = await fetch(`http://${ipAddress}:3000/api/articles/${username}`);
+            const response = await fetch(`${ipAddress}/api/articles/${username}`);
             if (response.ok) {
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.includes('application/json')) {
@@ -42,6 +44,15 @@ function Profile() {
         setDarkSide(checked);
     };
 
+    const handleClickarticle = (image, title, author, content, publishtime,description) => {
+        Gimage=image;
+        Gtitle=title;
+        Gauthor=author;
+        Gcontent=content;
+        Gpublishtime=publishtime;
+        Gdescription = description;
+      };
+
     return (
         <div style={{ backgroundColor: darkSide ? '#1F2937' : '#F3F4F6', minHeight: '200vh'}}>
             <ProfileNavbar darkSide={darkSide} toggleDarkMode={toggleDarkMode} />
@@ -61,9 +72,14 @@ function Profile() {
                                             {articles.map(article => (
                                                 <div key={article.id} className="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                                                     <article className="overflow-hidden rounded-lg shadow-lg">
+                                                   
                                                         <a href="#">
-                                                            <img alt="Placeholder" className="block h-48 w-full object-cover" src={article.urlToImage} />
+                                                        <Link to={`/Article`}>
+                                                            <img  onClick={() => handleClickarticle(article.urlToImage, article.title, article.author, article.content, article.publishedAt,article.description)}
+                                                             alt="Placeholder" className="block h-48 w-full object-cover" src={article.urlToImage} />
+                                                             </Link >
                                                         </a>
+                                                        
                                                         <header className="flex items-center justify-between leading-tight p-2 md:p-4">
                                                             <h1 className="text-lg">
                                                                 <a className="no-underline hover:underline text-black dark:text-white" href="#">

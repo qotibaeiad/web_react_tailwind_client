@@ -100,7 +100,7 @@ const MyComponent = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`http://${ipAddress}:3000/api/categories?username=${username}`);
+        const response = await fetch(`${ipAddress}/api/categories?username=${username}`);
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
